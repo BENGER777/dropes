@@ -1,0 +1,2862 @@
+<!DOCTYPE html>
+<html lang="ru" id="htmlLang">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DROP SHOP | Каталог</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* === СТИЛИ ИЗ ГЛАВНОЙ СТРАНИЦЫ === */
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --gray-dark: #1A1A1A;
+    --gray-medium: #333333;
+    --gray-light: #666666;
+    --gray-soft: #F5F5F5;
+    --border: #E0E0E0;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --container-width: 1200px;
+    --header-height: 80px;
+    --transition: 0.2s ease;
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-logo: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --primary-color: #000000;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --bonus-color: #9b59b6;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* === ХЕДЕР (ИДЕНТИЧНЫЙ ГЛАВНОЙ) === */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    font-family: var(--font-logo);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--black);
+    letter-spacing: -1px;
+  }
+
+  .language-switcher {
+    position: relative;
+  }
+
+  .lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    transition: var(--transition);
+  }
+
+  .lang-btn:hover {
+    border-color: var(--gray-light);
+  }
+
+  .lang-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    min-width: 120px;
+    display: none;
+    z-index: 1000;
+    margin-top: 4px;
+  }
+
+  .lang-options.show {
+    display: block;
+  }
+
+  .lang-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lang-option:hover {
+    background-color: var(--gray-soft);
+  }
+
+  .lang-option.active {
+    font-weight: 500;
+  }
+
+  .nav {
+    display: flex;
+    gap: 32px;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    padding: 4px 0;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--black);
+    transition: width var(--transition);
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .nav-link.active {
+    font-weight: 600;
+  }
+
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 18px;
+    position: relative;
+    transition: var(--transition);
+    padding: 8px;
+  }
+
+  .action-btn:hover {
+    opacity: 0.7;
+  }
+
+  .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+  }
+
+  /* === ТРЁХКОЛОНОЧНЫЙ КАТАЛОГ === */
+  .catalog-main {
+    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  .catalog-columns {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+  }
+
+  /* Боковые колонки (25% ширины) */
+  .catalog-sidebar {
+    width: 25%;
+    background: var(--gray-soft);
+    padding: 40px 20px;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+
+  .catalog-sidebar.right {
+    border-right: none;
+    border-left: 1px solid var(--border);
+  }
+
+  .sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .sidebar-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .sidebar-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .sidebar-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* Центральная колонка (50% ширины) */
+  .catalog-center {
+    width: 50%;
+    padding: 40px;
+    background: var(--white);
+    overflow-y: auto;
+  }
+
+  /* Цвета для колонок */
+  .replica-sidebar .sidebar-icon {
+    color: #3498db;
+  }
+
+  .original-sidebar .sidebar-icon {
+    color: #27ae60;
+  }
+
+  /* Товары в боковых колонках */
+  .sidebar-products {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar-product {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    gap: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .sidebar-product:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .sidebar-product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .sidebar-product-info {
+    flex: 1;
+  }
+
+  .sidebar-product-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .sidebar-product-price {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .sidebar-product-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* === КНОПКИ === */
+  .btn {
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .btn-primary {
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--gray-dark);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--gray-soft);
+  }
+
+  .btn-success {
+    background-color: var(--success-color);
+    color: var(--white);
+  }
+
+  .btn-success:hover {
+    background-color: #219653;
+  }
+
+  .btn-warning {
+    background-color: var(--warning-color);
+    color: var(--white);
+  }
+
+  .btn-warning:hover {
+    background-color: #e67e22;
+  }
+
+  /* === ЛИЧНЫЙ КАБИНЕТ (ПОЛНОЦЕННАЯ ВЕРСИЯ) === */
+  .personal-cabinet {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+
+  .cabinet-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .cabinet-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+
+  .cabinet-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .cabinet-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+
+  /* Формы авторизации */
+  .cabinet-form {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .cabinet-form.active {
+    display: block;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--gray-light);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* Telegram авторизация */
+  .telegram-auth {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    margin: 20px 0;
+    background: var(--gray-soft);
+  }
+
+  .telegram-btn {
+    background: #0088cc;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .telegram-btn:hover {
+    background: #0077b3;
+    transform: translateY(-2px);
+  }
+
+  .telegram-code {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin: 10px 0;
+    border: 1px solid var(--border);
+  }
+
+  /* Профиль пользователя */
+  .user-profile {
+    display: none;
+  }
+
+  .user-profile.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .user-info {
+    flex: 1;
+  }
+
+  .user-info h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .user-info p {
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+
+  .user-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+
+  .status-premium {
+    background: linear-gradient(135deg, #f39c12, #e74c3c);
+    color: white;
+  }
+
+  .status-regular {
+    background: var(--gray-soft);
+    color: var(--text-secondary);
+  }
+
+  /* Бонусная система */
+  .bonus-card {
+    background: linear-gradient(135deg, var(--bonus-color), #8e44ad);
+    color: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bonus-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 150px;
+    height: 150px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+  }
+
+  .bonus-card::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+
+  .bonus-title {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bonus-amount {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bonus-info {
+    font-size: 13px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bonus-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* История бонусов */
+  .bonus-history {
+    background: var(--gray-soft);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .bonus-history-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .bonus-history-item:last-child {
+    border-bottom: none;
+  }
+
+  .bonus-plus {
+    color: var(--success-color);
+    font-weight: 600;
+  }
+
+  .bonus-minus {
+    color: var(--danger-color);
+    font-weight: 600;
+  }
+
+  /* Навигация кабинета */
+  .cabinet-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .cabinet-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--gray-soft);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+    color: var(--text-primary);
+    text-align: left;
+  }
+
+  .cabinet-nav-btn:hover {
+    background: var(--border);
+    transform: translateX(5px);
+  }
+
+  .cabinet-nav-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+  }
+
+  /* Секции кабинета */
+  .cabinet-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .cabinet-section.active {
+    display: block;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* История заказов */
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .orders-table th {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--gray-soft);
+  }
+
+  .orders-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .order-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+  }
+
+  .status-delivered {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .status-processing {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .status-pending {
+    background: #d1ecf1;
+    color: #0c5460;
+  }
+
+  .status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  /* Настройки профиля */
+  .settings-form {
+    max-width: 500px;
+  }
+
+  .settings-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  /* === АКЦИИ И ПРЕДЛОЖЕНИЯ === */
+  .promotions-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+
+  .promotions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .promotion-card {
+    background: var(--gray-soft);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+
+  .promotion-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+  }
+
+  .promotion-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .promotion-percent {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .promotion-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* Категории */
+  .categories-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  }
+
+  .category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .category-tag {
+    background: var(--gray-soft);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .category-tag:hover {
+    background: var(--primary-color);
+    color: var(--white);
+  }
+
+  /* === УВЕДОМЛЕНИЯ === */
+  .notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 16px 24px;
+    min-width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 8px;
+  }
+
+  .notification.show {
+    transform: translateX(0);
+  }
+
+  .notification-icon {
+    color: var(--success-color);
+    font-size: 20px;
+  }
+
+  .notification-content {
+    flex: 1;
+  }
+
+  .notification-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+
+  .notification-message {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .notification-close {
+    background: none;
+    border: none;
+    color: var(--gray-light);
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* === АНИМАЦИИ === */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* === МОДАЛЬНОЕ ОКНО === */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal.active {
+    display: flex;
+  }
+
+  .modal-content {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--gray-light);
+  }
+
+  /* === ФУТЕР === */
+  .footer {
+    background-color: var(--gray-dark);
+    color: var(--white);
+    padding: 64px 0 32px;
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .footer-links {
+    list-style: none;
+  }
+
+  .footer-links li {
+    margin-bottom: 12px;
+  }
+
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 14px;
+    transition: var(--transition);
+  }
+
+  .footer-links a:hover {
+    color: var(--white);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .footer-social a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    transition: var(--transition);
+  }
+
+  .footer-social a:hover {
+    color: var(--white);
+  }
+
+  .copyright {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+  }
+
+  /* === АДАПТИВНОСТЬ === */
+  @media (max-width: 992px) {
+    .catalog-columns {
+      flex-direction: column;
+    }
+    
+    .catalog-sidebar,
+    .catalog-center {
+      width: 100%;
+      height: auto;
+    }
+    
+    .catalog-sidebar {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .catalog-sidebar.right {
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+    
+    .nav {
+      display: none;
+    }
+    
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-wrap: wrap;
+      padding: 16px 0;
+    }
+    
+    .logo {
+      order: 1;
+    }
+    
+    .language-switcher {
+      order: 2;
+      margin-left: auto;
+    }
+    
+    .header-actions {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    
+    .catalog-center {
+      padding: 20px;
+    }
+    
+    .promotions-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .bonus-actions {
+      flex-direction: column;
+    }
+    
+    .orders-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sidebar-product {
+      flex-direction: column;
+    }
+    
+    .sidebar-product-image {
+      width: 100%;
+      height: 150px;
+    }
+    
+    .category-tags {
+      justify-content: center;
+    }
+    
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .settings-actions {
+      flex-direction: column;
+    }
+  }
+
+  /* Индикатор наличия */
+  .stock-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-left: 5px;
+  }
+
+  .in-stock {
+    background: var(--success-color);
+    color: white;
+  }
+
+  .pre-order {
+    background: var(--warning-color);
+    color: white;
+  }
+
+  /* Прогресс бар */
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--gray-soft);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary-color), var(--bonus-color));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* Загрузка */
+  .loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-soft);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">DROP SHOP</div>
+      </a>
+
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button class="lang-btn" id="languageToggle">
+          <span data-i18n="language.current">Русский</span>
+          <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+        </button>
+        <div class="lang-options" id="languageOptions">
+          <div class="lang-option active" data-lang="ru">
+            <span data-i18n="language.russian">Русский</span>
+          </div>
+          <div class="lang-option" data-lang="sah">
+            <span data-i18n="language.sakha">Саха тыла</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Главная</a>
+        <a href="catalog.html" class="nav-link active" data-i18n="nav.catalog">Каталог</a>
+        <a href="about.html" class="nav-link" data-i18n="nav.about">О нас</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav.contact">Контакты</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="action-btn" onclick="toggleWishlist()">
+          <i class="far fa-heart"></i>
+          <span class="badge" id="wishlistCount">0</span>
+        </button>
+        <button class="action-btn" onclick="toggleCompare()">
+          <i class="fas fa-balance-scale"></i>
+          <span class="badge" id="compareCount">0</span>
+        </button>
+        <button class="action-btn" onclick="window.location.href='cart.html'">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Уведомление -->
+<div class="notification" id="notification">
+  <div class="notification-icon">
+    <i class="fas fa-check-circle"></i>
+  </div>
+  <div class="notification-content">
+    <div class="notification-title" id="notificationTitle">Уведомление</div>
+    <div class="notification-message" id="notificationMessage">Сообщение</div>
+  </div>
+  <button class="notification-close" onclick="hideNotification()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+
+<!-- Модальное окно для бонусов -->
+<div class="modal" id="bonusModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 style="margin-bottom: 20px;">Использование бонусов</h2>
+    <div class="form-group">
+      <label class="form-label">Доступно бонусов: <span id="availableBonuses">0</span></label>
+      <input type="number" class="form-input" id="useBonuses" placeholder="Введите количество бонусов" min="0">
+      <small style="color: var(--text-secondary); display: block; margin-top: 5px;">
+        Можно списать до 15% от суммы покупки. 1 бонус = 1 рубль
+      </small>
+    </div>
+    <div style="background: var(--gray-soft); padding: 15px; border-radius: 8px; margin: 15px 0;">
+      <strong>Расчет:</strong><br>
+      Сумма покупки: <span id="purchaseAmount">0</span> ₽<br>
+      Максимум можно списать: <span id="maxBonus">0</span> бонусов<br>
+      <span id="bonusResult" style="font-weight: 600; color: var(--success-color);"></span>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="btn btn-primary" onclick="applyBonuses()">Применить бонусы</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<!-- Трёхколоночный каталог -->
+<main class="catalog-main">
+  <div class="catalog-columns">
+    <!-- Левая колонка: Реплики -->
+    <div class="catalog-sidebar replica-sidebar">
+      <div class="sidebar-header">
+        <i class="fas fa-clone sidebar-icon"></i>
+        <h2 class="sidebar-title" data-i18n="catalog.replica">Реплики</h2>
+        <p class="sidebar-subtitle" data-i18n="catalog.replicaSub">В наличии, быстрая доставка</p>
+      </div>
+      
+      <div class="sidebar-products" id="replicaProducts">
+        <!-- Товары-реплики загружаются через JS -->
+      </div>
+      
+      <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="viewAllReplicas()">
+        <span data-i18n="catalog.viewAllReplicas">Все реплики</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <!-- Центральная колонка: Личный кабинет и акции -->
+    <div class="catalog-center">
+      <!-- Личный кабинет (ПОЛНОЦЕННАЯ ВЕРСИЯ) -->
+      <div class="personal-cabinet">
+        <div class="cabinet-header">
+          <i class="fas fa-user-circle cabinet-icon"></i>
+          <h2 class="cabinet-title" data-i18n="cabinet.title">Личный кабинет</h2>
+          <p class="cabinet-subtitle" data-i18n="cabinet.subtitle">Управляйте заказами, бонусами и настройками</p>
+        </div>
+        
+        <!-- Форма входа -->
+        <div class="cabinet-form" id="loginForm">
+          <form onsubmit="login(event)">
+            <div class="form-group">
+              <label class="form-label" data-i18n="cabinet.email">Email</label>
+              <input type="email" class="form-input" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="cabinet.password">Пароль</label>
+              <input type="password" class="form-input" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span data-i18n="cabinet.login">Войти</span>
+            </button>
+          </form>
+          
+          <div class="telegram-auth">
+            <h4>Войти через Telegram</h4>
+            <p>Авторизуйтесь через нашего бота для быстрого доступа</p>
+            <div class="telegram-code" id="telegramCode">••••••</div>
+            <a href="https://t.me/DropShopNotificationBot" target="_blank" class="telegram-btn">
+              <i class="fab fa-telegram"></i> Перейти в бота
+            </a>
+            <p style="font-size: 12px; margin-top: 10px; color: var(--text-secondary);">
+              Напишите боту команду: <code>/start</code> и введите код выше
+            </p>
+          </div>
+          
+          <p style="text-align: center; margin-top: 20px;">
+            <span data-i18n="cabinet.noAccount">Нет аккаунта?</span>
+            <a href="#" onclick="showRegisterForm()" style="margin-left: 5px;">
+              <span data-i18n="cabinet.register">Зарегистрироваться</span>
+            </a>
+          </p>
+        </div>
+        
+        <!-- Форма регистрации -->
+        <div class="cabinet-form" id="registerForm">
+          <form onsubmit="register(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="cabinet.name">Имя</label>
+                <input type="text" class="form-input" id="registerName" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-i18n="cabinet.email">Email</label>
+                <input type="email" class="form-input" id="registerEmail" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="cabinet.password">Пароль</label>
+                <input type="password" class="form-input" id="registerPassword" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-i18n="cabinet.confirmPassword">Повторите пароль</label>
+                <input type="password" class="form-input" id="registerConfirmPassword" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Номер телефона</label>
+              <input type="tel" class="form-input" id="registerPhone" placeholder="+7 (999) 123-45-67">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span data-i18n="cabinet.register">Зарегистрироваться</span>
+            </button>
+          </form>
+          
+          <div class="telegram-auth" style="margin-top: 20px;">
+            <h4>Быстрая регистрация через Telegram</h4>
+            <p>Создайте аккаунт за 1 минуту через нашего бота</p>
+            <a href="https://t.me/DropShopNotificationBot" target="_blank" class="telegram-btn">
+              <i class="fab fa-telegram"></i> Зарегистрироваться через бота
+            </a>
+          </div>
+          
+          <p style="text-align: center; margin-top: 20px;">
+            <span data-i18n="cabinet.haveAccount">Уже есть аккаунт?</span>
+            <a href="#" onclick="showLoginForm()" style="margin-left: 5px;">
+              <span data-i18n="cabinet.login">Войти</span>
+            </a>
+          </p>
+        </div>
+        
+        <!-- Профиль пользователя -->
+        <div class="user-profile" id="userProfile">
+          <div class="profile-header">
+            <div class="user-avatar" id="userAvatar">И</div>
+            <div class="user-info">
+              <h3 id="userName">Иван Иванов</h3>
+              <p id="userEmail">ivan@example.com</p>
+              <p id="userPhone">+7 (999) 123-45-67</p>
+              <span class="user-status status-premium" id="userStatus">
+                <i class="fas fa-crown"></i> Премиум клиент
+              </span>
+            </div>
+          </div>
+          
+          <!-- Бонусная система -->
+          <div class="bonus-card">
+            <div class="bonus-title" data-i18n="cabinet.bonuses">Бонусные баллы</div>
+            <div class="bonus-amount" id="bonusAmount">1 250</div>
+            <div class="bonus-info" data-i18n="cabinet.bonusInfo">
+              1 балл = 1 ₽, можно списать до 15% от покупки
+            </div>
+            <div class="bonus-info">
+              Начисляется 5% от каждой покупки
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="bonusProgress" style="width: 65%;"></div>
+            </div>
+            <div class="bonus-actions">
+              <button class="btn btn-success btn-small" onclick="openBonusModal()">
+                <i class="fas fa-gift"></i> Использовать бонусы
+              </button>
+              <button class="btn btn-secondary btn-small" onclick="showCabinetSection('bonusHistory')">
+                <i class="fas fa-history"></i> История
+              </button>
+            </div>
+          </div>
+          
+          <!-- Навигация кабинета -->
+          <div class="cabinet-nav">
+            <button class="cabinet-nav-btn active" onclick="showCabinetSection('profile')">
+              <i class="fas fa-user"></i>
+              <span data-i18n="cabinet.profile">Профиль</span>
+            </button>
+            <button class="cabinet-nav-btn" onclick="showCabinetSection('orders')">
+              <i class="fas fa-shopping-bag"></i>
+              <span data-i18n="cabinet.orders">Мои заказы</span>
+              <span style="margin-left: auto; background: var(--primary-color); color: white; padding: 2px 8px; border-radius: 10px; font-size: 12px;" id="ordersCount">3</span>
+            </button>
+            <button class="cabinet-nav-btn" onclick="showCabinetSection('bonuses')">
+              <i class="fas fa-gift"></i>
+              <span data-i18n="cabinet.bonuses">Бонусы</span>
+            </button>
+            <button class="cabinet-nav-btn" onclick="showCabinetSection('settings')">
+              <i class="fas fa-cog"></i>
+              <span data-i18n="cabinet.settings">Настройки</span>
+            </button>
+            <button class="cabinet-nav-btn" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span data-i18n="cabinet.logout">Выйти</span>
+            </button>
+          </div>
+          
+          <!-- Секция профиля -->
+          <div class="cabinet-section active" id="profileSection">
+            <h3 class="section-title">
+              <i class="fas fa-user"></i>
+              <span data-i18n="cabinet.profileInfo">Информация профиля</span>
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Имя</label>
+                <input type="text" class="form-input" id="profileName" value="Иван Иванов">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="profileEmail" value="ivan@example.com">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Телефон</label>
+                <input type="tel" class="form-input" id="profilePhone" value="+7 (999) 123-45-67">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Дата рождения</label>
+                <input type="date" class="form-input" id="profileBirthday" value="1990-01-01">
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn btn-primary" onclick="updateProfile()">
+                Сохранить изменения
+              </button>
+              <button class="btn btn-secondary" onclick="showCabinetSection('changePassword')">
+                Сменить пароль
+              </button>
+            </div>
+          </div>
+          
+          <!-- Секция заказов -->
+          <div class="cabinet-section" id="ordersSection">
+            <h3 class="section-title">
+              <i class="fas fa-shopping-bag"></i>
+              <span>История заказов</span>
+            </h3>
+            <div style="text-align: center; padding: 30px; color: var(--text-secondary);" id="emptyOrders">
+              <i class="fas fa-shopping-bag" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+              <p>У вас пока нет заказов</p>
+              <a href="catalog.html" class="btn btn-primary" style="margin-top: 15px;">Начать покупки</a>
+            </div>
+            <table class="orders-table" id="ordersTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>№ Заказа</th>
+                  <th>Дата</th>
+                  <th>Сумма</th>
+                  <th>Статус</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <!-- Заказы загружаются через JS -->
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Секция бонусов -->
+          <div class="cabinet-section" id="bonusesSection">
+            <h3 class="section-title">
+              <i class="fas fa-gift"></i>
+              <span>Бонусная система</span>
+            </h3>
+            <div style="background: var(--gray-soft); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+              <h4>Как работают бонусы?</h4>
+              <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Начисляется <strong>5% от суммы каждой покупки</strong> в бонусах</li>
+                <li>1 бонус = 1 рубль</li>
+                <li>Можно списать <strong>до 15% от суммы покупки</strong> бонусами</li>
+                <li>Бонусы не сгорают</li>
+                <li>Дополнительные бонусы за отзывы и активность</li>
+              </ul>
+            </div>
+            
+            <div class="bonus-history">
+              <h4>История начислений</h4>
+              <div id="bonusHistoryList">
+                <!-- История загружается через JS -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Секция настроек -->
+          <div class="cabinet-section" id="settingsSection">
+            <h3 class="section-title">
+              <i class="fas fa-cog"></i>
+              <span>Настройки аккаунта</span>
+            </h3>
+            <div class="form-group">
+              <label class="form-label">Уведомления</label>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="notifyEmail" checked>
+                  <span>Уведомления по email</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="notifySMS" checked>
+                  <span>Уведомления по SMS</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="notifyTelegram" checked>
+                  <span>Уведомления в Telegram</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Интеграция с Telegram</label>
+              <div id="telegramStatus" style="background: var(--success-color); color: white; padding: 10px; border-radius: 6px;">
+                <i class="fab fa-telegram"></i> Аккаунт привязан: @username
+              </div>
+              <button class="btn btn-secondary" style="margin-top: 10px;" onclick="linkTelegram()">
+                <i class="fab fa-telegram"></i> Привязать/изменить Telegram
+              </button>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">
+              <h4 style="margin-bottom: 15px; color: var(--danger-color);">Опасная зона</h4>
+              <button class="btn btn-secondary" style="background: var(--danger-color); color: white;" onclick="deleteAccount()">
+                <i class="fas fa-trash"></i> Удалить аккаунт
+              </button>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px;">
+                Внимание: это действие нельзя отменить. Все ваши данные будут удалены.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Секция смены пароля -->
+          <div class="cabinet-section" id="changePasswordSection">
+            <h3 class="section-title">
+              <i class="fas fa-lock"></i>
+              <span>Смена пароля</span>
+            </h3>
+            <div class="form-group">
+              <label class="form-label">Текущий пароль</label>
+              <input type="password" class="form-input" id="currentPassword">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Новый пароль</label>
+              <input type="password" class="form-input" id="newPassword">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Повторите новый пароль</label>
+              <input type="password" class="form-input" id="confirmNewPassword">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+              <button class="btn btn-primary" onclick="changePassword()">
+                Сменить пароль
+              </button>
+              <button class="btn btn-secondary" onclick="showCabinetSection('profile')">
+                Отмена
+              </button>
+            </div>
+          </div>
+          
+          <!-- Секция истории бонусов -->
+          <div class="cabinet-section" id="bonusHistorySection">
+            <h3 class="section-title">
+              <i class="fas fa-history"></i>
+              <span>История бонусов</span>
+            </h3>
+            <div id="bonusHistoryDetails">
+              <!-- Детальная история загружается через JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Акции и предложения -->
+      <div class="promotions-section">
+        <h3 class="section-title">
+          <i class="fas fa-fire"></i>
+          <span data-i18n="promotions.title">Акции и предложения</span>
+        </h3>
+        
+        <div class="promotions-grid">
+          <div class="promotion-card" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white;">
+            <i class="fas fa-percentage promotion-icon"></i>
+            <div class="promotion-percent">-20%</div>
+            <div class="promotion-label" data-i18n="promotions.nike">На все кроссовки Nike</div>
+          </div>
+          
+          <div class="promotion-card" style="background: linear-gradient(135deg, #3498db, #2980b9); color: white;">
+            <i class="fas fa-shopping-cart promotion-icon"></i>
+            <div class="promotion-percent">-15%</div>
+            <div class="promotion-label" data-i18n="promotions.twoItems">При покупке от 2 товаров</div>
+          </div>
+          
+          <div class="promotion-card" style="background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white;">
+            <i class="fas fa-star promotion-icon"></i>
+            <div class="promotion-percent">+10%</div>
+            <div class="promotion-label">Бонусов за первую покупку</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Популярные категории -->
+      <div class="categories-section">
+        <h3 class="section-title">
+          <i class="fas fa-chart-line"></i>
+          <span data-i18n="categories.title">Популярные категории</span>
+        </h3>
+        
+        <div class="category-tags">
+          <span class="category-tag" onclick="filterCategory('кроссовки')">Кроссовки</span>
+          <span class="category-tag" onclick="filterCategory('худи')">Худи</span>
+          <span class="category-tag" onclick="filterCategory('футболки')">Футболки</span>
+          <span class="category-tag" onclick="filterCategory('куртки')">Куртки</span>
+          <span class="category-tag" onclick="filterCategory('брюки')">Брюки</span>
+          <span class="category-tag" onclick="filterCategory('сумки')">Сумки</span>
+          <span class="category-tag" onclick="filterCategory('аксессуары')">Аксессуары</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Правая колонка: Оригиналы -->
+    <div class="catalog-sidebar original-sidebar right">
+      <div class="sidebar-header">
+        <i class="fas fa-gem sidebar-icon"></i>
+        <h2 class="sidebar-title" data-i18n="catalog.original">Оригиналы</h2>
+        <p class="sidebar-subtitle" data-i18n="catalog.originalSub">Под заказ, гарантия подлинности</p>
+      </div>
+      
+      <div class="sidebar-products" id="originalProducts">
+        <!-- Товары-оригиналы загружаются через JS -->
+      </div>
+      
+      <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" onclick="viewAllOriginals()">
+        <span data-i18n="catalog.viewAllOriginals">Все оригиналы</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3 data-i18n="footer.about">DROP SHOP</h3>
+        <ul class="footer-links">
+          <li><a href="about.html" data-i18n="nav.about">О нас</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Контакты</a></li>
+          <li><a href="delivery.html" data-i18n="footer.delivery">Доставка и оплата</a></li>
+          <li><a href="guarantee.html" data-i18n="footer.guarantee">Гарантия</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3 data-i18n="footer.catalog">Каталог</h3>
+        <ul class="footer-links">
+          <li><a href="catalog.html" onclick="filterReplicas()" data-i18n="productTypes.replica">Реплики</a></li>
+          <li><a href="catalog.html" onclick="filterOriginals()" data-i18n="productTypes.original">Оригиналы</a></li>
+          <li><a href="catalog.html" onclick="filterCategory('обувь')" data-i18n="productCategories.shoes">Обувь</a></li>
+          <li><a href="catalog.html" onclick="filterCategory('одежда')" data-i18n="productCategories.clothes">Одежда</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3 data-i18n="footer.contacts">Контакты</h3>
+        <ul class="footer-links">
+          <li><a href="tel:+79991234567">+7 (999) 123-45-67</a></li>
+          <li><a href="mailto:info@dropshop.ru">info@dropshop.ru</a></li>
+          <li><a href="#" data-i18n="contacts.address">Якутск, ул. Примерная, 15</a></li>
+          <li><a href="#" data-i18n="contacts.hours">Ежедневно 10:00-20:00</a></li>
+        </ul>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-vk"></i></a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>© 2024 DROP SHOP. <span data-i18n="footer.rights">Все права защищены.</span></p>
+      <p style="margin-top: 8px; font-size: 11px;" data-i18n="footer.slogan">Оригиналы и реплики с 2018 года</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ========== КОНСТАНТЫ И ПЕРЕМЕННЫЕ ==========
+  const TELEGRAM_BOT_TOKEN = '8505187955:AAFAQpSiQ7nodKJ0ILwo0A3PJLM4llUqV4Y';
+  const TELEGRAM_CHAT_ID = '6478016631';
+  
+  const translations = {
+    ru: {
+      "language.current": "Русский",
+      "language.russian": "Русский",
+      "language.sakha": "Саха тыла",
+      "nav.home": "Главная",
+      "nav.catalog": "Каталог",
+      "nav.about": "О нас",
+      "nav.contact": "Контакты",
+      "catalog.replica": "Реплики",
+      "catalog.replicaSub": "В наличии, быстрая доставка",
+      "catalog.original": "Оригиналы",
+      "catalog.originalSub": "Под заказ, гарантия подлинности",
+      "catalog.viewAllReplicas": "Все реплики",
+      "catalog.viewAllOriginals": "Все оригиналы",
+      "cabinet.title": "Личный кабинет",
+      "cabinet.subtitle": "Управляйте заказами, бонусами и настройками",
+      "cabinet.email": "Email",
+      "cabinet.password": "Пароль",
+      "cabinet.login": "Войти",
+      "cabinet.noAccount": "Нет аккаунта?",
+      "cabinet.register": "Зарегистрироваться",
+      "cabinet.name": "Имя",
+      "cabinet.confirmPassword": "Повторите пароль",
+      "cabinet.haveAccount": "Уже есть аккаунт?",
+      "cabinet.bonuses": "Бонусные баллы",
+      "cabinet.bonusInfo": "1 балл = 1 ₽, можно списать до 10% от покупки",
+      "cabinet.orders": "Мои заказы",
+      "cabinet.profile": "Профиль",
+      "cabinet.logout": "Выйти",
+      "promotions.title": "Акции и предложения",
+      "promotions.nike": "На все кроссовки Nike",
+      "promotions.twoItems": "При покупке от 2 товаров",
+      "promotions.firstOrder": "На первую покупку",
+      "categories.title": "Популярные категории",
+      "productTypes.replica": "Реплика",
+      "productTypes.original": "Оригинал",
+      "productCategories.shoes": "Обувь",
+      "productCategories.clothes": "Одежда",
+      "buttons.addToCart": "В корзину",
+      "buttons.order": "Заказать",
+      "footer.about": "DROP SHOP",
+      "footer.catalog": "Каталог",
+      "footer.contacts": "Контакты",
+      "footer.delivery": "Доставка и оплата",
+      "footer.guarantee": "Гарантия",
+      "footer.rights": "Все права защищены.",
+      "footer.slogan": "Оригиналы и реплики с 2018 года",
+      "contacts.address": "Якутск, ул. Примерная, 15",
+      "contacts.hours": "Ежедневно 10:00-20:00"
+    },
+    
+    sah: {
+      "language.current": "Саха тыла",
+      "language.russian": "Нууччалыы",
+      "language.sakha": "Саха тыла",
+      "nav.home": "Сүрүн сирэй",
+      "nav.catalog": "Каталог",
+      "nav.about": "Биһигэр",
+      "nav.contact": "Ситим",
+      "catalog.replica": "Репликалар",
+      "catalog.replicaSub": "Бааллар, түргэн таһаарыы",
+      "catalog.original": "Оригиналлар",
+      "catalog.originalSub": "Закааска, оригинал буолуутун гарантията",
+      "catalog.viewAllReplicas": "Бары репликалар",
+      "catalog.viewAllOriginals": "Бары оригиналлар",
+      "cabinet.title": "Бэйэҕэр аналлаах кабинет",
+      "cabinet.subtitle": "Закастары, бонустары уонна туруоруулары салай",
+      "cabinet.email": "Email",
+      "cabinet.password": "Киирии тыл",
+      "cabinet.login": "Киир",
+      "cabinet.noAccount": "Аккаунт суох дуо?",
+      "cabinet.register": "Бэлиэтэн",
+      "cabinet.name": "Аат",
+      "cabinet.confirmPassword": "Киирии тылы хос бигэргэт",
+      "cabinet.haveAccount": "Аккаунт баар дуо?",
+      "cabinet.bonuses": "Бонус баллар",
+      "cabinet.bonusInfo": "1 балл = 1 солк., 10% дылы туттуохха сөп",
+      "cabinet.orders": "Миэнэ закастарым",
+      "cabinet.profile": "Профиль",
+      "cabinet.logout": "Таҕыс",
+      "promotions.title": "Акциялар уонна предложенилар",
+      "promotions.nike": "Nike бары атаҕар",
+      "promotions.twoItems": "2 товартан ордук атыыга",
+      "promotions.firstOrder": "Бастакы атыыга",
+      "categories.title": "Бүрдэммит категориялар",
+      "productTypes.replica": "Реплика",
+      "productTypes.original": "Оригинал",
+      "productCategories.shoes": "Атаҕа",
+      "productCategories.clothes": "Таҥас",
+      "buttons.addToCart": "Корзинаҕа",
+      "buttons.order": "Закаастаа",
+      "footer.about": "DROP SHOP",
+      "footer.catalog": "Каталог",
+      "footer.contacts": "Ситим",
+      "footer.delivery": "Таһаарыы уонна төлөбүр",
+      "footer.guarantee": "Гарантия",
+      "footer.rights": "Бары бырааптар харыстаммыт.",
+      "footer.slogan": "Оригиналлар уонна репликалар 2018 сылтан",
+      "contacts.address": "Дьокуускай, Холобур уул., 15",
+      "contacts.hours": "Күн аайы 10:00-20:00"
+    }
+  };
+
+  let currentLanguage = localStorage.getItem('language') || 'ru';
+  let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+  let allProducts = [];
+  let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  let compareList = JSON.parse(localStorage.getItem('compare')) || [];
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+  let telegramCode = generateTelegramCode();
+
+  // ========== ГЕНЕРАЦИЯ КОДА ДЛЯ TELEGRAM ==========
+  function generateTelegramCode() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  }
+
+  // ========== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ==========
+  function switchLanguage(lang) {
+    if (!translations[lang]) return;
+    
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    document.getElementById('htmlLang').setAttribute('lang', lang);
+    
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        element.textContent = translations[lang][key];
+      }
+    });
+    
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.classList.remove('active');
+      if (option.getAttribute('data-lang') === lang) {
+        option.classList.add('active');
+      }
+    });
+    
+    const currentLangBtn = document.querySelector('#languageToggle span[data-i18n="language.current"]');
+    if (currentLangBtn && translations[lang]["language.current"]) {
+      currentLangBtn.textContent = translations[lang]["language.current"];
+    }
+  }
+
+  function toggleLanguageDropdown() {
+    const options = document.getElementById('languageOptions');
+    options.classList.toggle('show');
+  }
+
+  // ========== УВЕДОМЛЕНИЯ ==========
+  function showNotification(title, message, type = 'info') {
+    const notification = document.getElementById('notification');
+    const notificationTitle = document.getElementById('notificationTitle');
+    const notificationMessage = document.getElementById('notificationMessage');
+    const icon = document.querySelector('.notification-icon i');
+    
+    notificationTitle.textContent = title;
+    notificationMessage.textContent = message;
+    
+    // Устанавливаем цвет в зависимости от типа
+    if (type === 'success') {
+      icon.className = 'fas fa-check-circle';
+      icon.style.color = '#27ae60';
+    } else if (type === 'error') {
+      icon.className = 'fas fa-exclamation-circle';
+      icon.style.color = '#e74c3c';
+    } else if (type === 'warning') {
+      icon.className = 'fas fa-exclamation-triangle';
+      icon.style.color = '#f39c12';
+    } else {
+      icon.className = 'fas fa-info-circle';
+      icon.style.color = '#3498db';
+    }
+    
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+
+  function hideNotification() {
+    document.getElementById('notification').classList.remove('show');
+  }
+
+  // ========== МОДАЛЬНЫЕ ОКНА ==========
+  function openBonusModal() {
+    if (!currentUser) {
+      showNotification('Ошибка', 'Сначала войдите в аккаунт', 'error');
+      return;
+    }
+    
+    const modal = document.getElementById('bonusModal');
+    const availableBonuses = document.getElementById('availableBonuses');
+    const purchaseAmount = document.getElementById('purchaseAmount');
+    
+    // Рассчитываем сумму текущей корзины
+    const cartTotal = Object.values(cart).reduce((sum, item) => {
+      return sum + (item.price * item.quantity);
+    }, 0);
+    
+    const maxBonus = Math.min(Math.floor(cartTotal * 0.15), currentUser.bonuses || 0);
+    
+    availableBonuses.textContent = currentUser.bonuses || 0;
+    purchaseAmount.textContent = cartTotal.toLocaleString();
+    document.getElementById('maxBonus').textContent = maxBonus;
+    
+    modal.classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('bonusModal').classList.remove('active');
+  }
+
+  function applyBonuses() {
+    const useBonuses = parseInt(document.getElementById('useBonuses').value) || 0;
+    const maxBonus = parseInt(document.getElementById('maxBonus').textContent);
+    const cartTotal = Object.values(cart).reduce((sum, item) => {
+      return sum + (item.price * item.quantity);
+    }, 0);
+    
+    if (useBonuses < 0) {
+      showNotification('Ошибка', 'Количество бонусов не может быть отрицательным', 'error');
+      return;
+    }
+    
+    if (useBonuses > maxBonus) {
+      showNotification('Ошибка', `Можно использовать максимум ${maxBonus} бонусов`, 'error');
+      return;
+    }
+    
+    if (useBonuses > (currentUser.bonuses || 0)) {
+      showNotification('Ошибка', 'Недостаточно бонусов', 'error');
+      return;
+    }
+    
+    // Сохраняем выбранное количество бонусов в localStorage
+    localStorage.setItem('useBonuses', useBonuses.toString());
+    
+    const discount = useBonuses;
+    const finalPrice = cartTotal - discount;
+    
+    document.getElementById('bonusResult').textContent = 
+      `Скидка: ${discount.toLocaleString()} ₽, Итог: ${finalPrice.toLocaleString()} ₽`;
+    
+    showNotification('Успех', `Применено ${useBonuses} бонусов`, 'success');
+    closeModal();
+  }
+
+  // ========== ЛИЧНЫЙ КАБИНЕТ ==========
+  function showLoginForm() {
+    document.getElementById('loginForm').classList.add('active');
+    document.getElementById('registerForm').classList.remove('active');
+    document.getElementById('userProfile').classList.remove('active');
+    updateTelegramCode();
+  }
+
+  function showRegisterForm() {
+    document.getElementById('registerForm').classList.add('active');
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('userProfile').classList.remove('active');
+  }
+
+  function showUserProfile() {
+    document.getElementById('userProfile').classList.add('active');
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('registerForm').classList.remove('active');
+    
+    if (currentUser) {
+      document.getElementById('userName').textContent = currentUser.name || 'Пользователь';
+      document.getElementById('userEmail').textContent = currentUser.email || 'Email не указан';
+      document.getElementById('userPhone').textContent = currentUser.phone || 'Телефон не указан';
+      document.getElementById('userAvatar').textContent = (currentUser.name || 'П').charAt(0).toUpperCase();
+      
+      // Обновляем бонусы
+      document.getElementById('bonusAmount').textContent = (currentUser.bonuses || 0).toLocaleString();
+      
+      // Обновляем поля профиля
+      document.getElementById('profileName').value = currentUser.name || '';
+      document.getElementById('profileEmail').value = currentUser.email || '';
+      document.getElementById('profilePhone').value = currentUser.phone || '';
+      document.getElementById('profileBirthday').value = currentUser.birthday || '';
+      
+      // Обновляем статус
+      const userStatus = document.getElementById('userStatus');
+      if ((currentUser.bonuses || 0) > 10000) {
+        userStatus.className = 'user-status status-premium';
+        userStatus.innerHTML = '<i class="fas fa-crown"></i> Премиум клиент';
+      } else if ((currentUser.bonuses || 0) > 5000) {
+        userStatus.className = 'user-status status-premium';
+        userStatus.innerHTML = '<i class="fas fa-star"></i> Постоянный клиент';
+      } else {
+        userStatus.className = 'user-status status-regular';
+        userStatus.innerHTML = '<i class="fas fa-user"></i> Обычный клиент';
+      }
+      
+      // Загружаем заказы
+      loadUserOrders();
+      
+      // Загружаем историю бонусов
+      loadBonusHistory();
+      
+      // Обновляем прогресс бонусов
+      updateBonusProgress();
+    }
+  }
+
+  function updateTelegramCode() {
+    telegramCode = generateTelegramCode();
+    document.getElementById('telegramCode').textContent = telegramCode;
+    localStorage.setItem('telegramCode', telegramCode);
+  }
+
+  function updateBonusProgress() {
+    if (!currentUser) return;
+    
+    const bonuses = currentUser.bonuses || 0;
+    let progress = 0;
+    
+    if (bonuses >= 10000) {
+      progress = 100;
+    } else if (bonuses >= 5000) {
+      progress = 70;
+    } else if (bonuses >= 1000) {
+      progress = 40;
+    } else {
+      progress = Math.min((bonuses / 1000) * 40, 40);
+    }
+    
+    document.getElementById('bonusProgress').style.width = `${progress}%`;
+  }
+
+  function login(event) {
+    if (event) event.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      currentUser = user;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      showNotification('Успех', 'Вход выполнен успешно', 'success');
+      showUserProfile();
+      updateCounters();
+    } else {
+      showNotification('Ошибка', 'Неверный email или пароль', 'error');
+    }
+  }
+
+  function register(event) {
+    if (event) event.preventDefault();
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+    const phone = document.getElementById('registerPhone').value;
+    
+    if (password !== confirmPassword) {
+      showNotification('Ошибка', 'Пароли не совпадают', 'error');
+      return;
+    }
+    
+    if (password.length < 6) {
+      showNotification('Ошибка', 'Пароль должен быть не менее 6 символов', 'error');
+      return;
+    }
+    
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    
+    if (users.some(u => u.email === email)) {
+      showNotification('Ошибка', 'Пользователь с таким email уже существует', 'error');
+      return;
+    }
+    
+    const newUser = {
+      id: Date.now(),
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
+      telegramId: null,
+      createdAt: new Date().toISOString(),
+      bonuses: 500, // Дарим 500 бонусов за регистрацию
+      bonusHistory: [
+        {
+          date: new Date().toISOString(),
+          amount: 500,
+          reason: 'Бонусы за регистрацию',
+          type: 'in'
+        }
+      ],
+      orders: [],
+      settings: {
+        notifyEmail: true,
+        notifySMS: true,
+        notifyTelegram: true
+      }
+    };
+    
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    currentUser = newUser;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    
+    showNotification('Успех', 'Регистрация прошла успешно! Вам начислено 500 бонусов', 'success');
+    showUserProfile();
+    
+    // Отправляем приветственное сообщение в Telegram
+    sendTelegramWelcome(newUser);
+  }
+
+  function logout() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    showNotification('Успех', 'Вы вышли из аккаунта', 'success');
+    showLoginForm();
+  }
+
+  function updateProfile() {
+    if (!currentUser) return;
+    
+    const name = document.getElementById('profileName').value;
+    const email = document.getElementById('profileEmail').value;
+    const phone = document.getElementById('profilePhone').value;
+    const birthday = document.getElementById('profileBirthday').value;
+    
+    // Обновляем текущего пользователя
+    currentUser.name = name;
+    currentUser.email = email;
+    currentUser.phone = phone;
+    currentUser.birthday = birthday;
+    
+    // Обновляем в localStorage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    if (userIndex !== -1) {
+      users[userIndex] = currentUser;
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+    
+    // Обновляем отображение
+    showUserProfile();
+    showNotification('Успех', 'Профиль успешно обновлен', 'success');
+  }
+
+  function changePassword() {
+    if (!currentUser) return;
+    
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+    
+    if (currentPassword !== currentUser.password) {
+      showNotification('Ошибка', 'Текущий пароль неверен', 'error');
+      return;
+    }
+    
+    if (newPassword !== confirmNewPassword) {
+      showNotification('Ошибка', 'Новые пароли не совпадают', 'error');
+      return;
+    }
+    
+    if (newPassword.length < 6) {
+      showNotification('Ошибка', 'Новый пароль должен быть не менее 6 символов', 'error');
+      return;
+    }
+    
+    // Обновляем пароль
+    currentUser.password = newPassword;
+    
+    // Обновляем в localStorage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    if (userIndex !== -1) {
+      users[userIndex] = currentUser;
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+    
+    // Очищаем поля
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmNewPassword').value = '';
+    
+    showNotification('Успех', 'Пароль успешно изменен', 'success');
+    showCabinetSection('profile');
+  }
+
+  function deleteAccount() {
+    if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие нельзя отменить.')) {
+      return;
+    }
+    
+    if (!currentUser) return;
+    
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const updatedUsers = users.filter(u => u.id !== currentUser.id);
+    localStorage.setItem('users', JSON.stringify(updatedUsers));
+    
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    
+    showNotification('Успех', 'Аккаунт успешно удален', 'success');
+    showLoginForm();
+  }
+
+  function linkTelegram() {
+    if (!currentUser) {
+      showNotification('Ошибка', 'Сначала войдите в аккаунт', 'error');
+      return;
+    }
+    
+    updateTelegramCode();
+    
+    const telegramLink = `https://t.me/DropShopNotificationBot?start=${telegramCode}`;
+    window.open(telegramLink, '_blank');
+    
+    showNotification('Инструкция', `Откройте бота и отправьте команду: /start ${telegramCode}`, 'info');
+  }
+
+  function showCabinetSection(section) {
+    // Скрываем все секции
+    document.querySelectorAll('.cabinet-section').forEach(sec => {
+      sec.classList.remove('active');
+    });
+    
+    // Убираем активный класс у всех кнопок
+    document.querySelectorAll('.cabinet-nav-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Показываем выбранную секцию
+    const sectionElement = document.getElementById(section + 'Section');
+    if (sectionElement) {
+      sectionElement.classList.add('active');
+      
+      // Активируем соответствующую кнопку
+      document.querySelectorAll('.cabinet-nav-btn').forEach(btn => {
+        if (btn.textContent.includes(getSectionTitle(section))) {
+          btn.classList.add('active');
+        }
+      });
+    }
+    
+    // Загружаем данные для секции
+    if (section === 'orders') {
+      loadUserOrders();
+    } else if (section === 'bonusHistory') {
+      loadBonusHistoryDetails();
+    }
+  }
+
+  function getSectionTitle(section) {
+    const titles = {
+      'profile': 'Профиль',
+      'orders': 'Заказы',
+      'bonuses': 'Бонусы',
+      'settings': 'Настройки',
+      'changePassword': 'Пароль',
+      'bonusHistory': 'История'
+    };
+    return titles[section] || section;
+  }
+
+  // ========== ЗАКАЗЫ ПОЛЬЗОВАТЕЛЯ ==========
+  function loadUserOrders() {
+    if (!currentUser) return;
+    
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const userOrders = orders.filter(order => order.email === currentUser.email || order.userId === currentUser.id);
+    
+    const emptyOrders = document.getElementById('emptyOrders');
+    const ordersTable = document.getElementById('ordersTable');
+    const ordersTableBody = document.getElementById('ordersTableBody');
+    const ordersCount = document.getElementById('ordersCount');
+    
+    if (userOrders.length === 0) {
+      emptyOrders.style.display = 'block';
+      ordersTable.style.display = 'none';
+      ordersCount.textContent = '0';
+    } else {
+      emptyOrders.style.display = 'none';
+      ordersTable.style.display = 'table';
+      ordersCount.textContent = userOrders.length.toString();
+      
+      // Сортируем заказы по дате (новые сверху)
+      userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      ordersTableBody.innerHTML = userOrders.map((order, index) => `
+        <tr>
+          <td>#${order.id || 'N/A'}</td>
+          <td>${new Date(order.date || new Date()).toLocaleDateString('ru-RU')}</td>
+          <td>${order.total ? parseInt(order.total.replace(/\s/g, '')).toLocaleString() : '0'} ₽</td>
+          <td>
+            <span class="order-status status-${getOrderStatusClass(order.status)}">
+              ${getOrderStatusText(order.status)}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-secondary btn-small" onclick="viewOrderDetails(${index})">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  }
+
+  function getOrderStatusClass(status) {
+    const statusMap = {
+      'новый': 'pending',
+      'обработка': 'processing',
+      'доставка': 'processing',
+      'доставлен': 'delivered',
+      'отменен': 'cancelled'
+    };
+    return statusMap[status] || 'pending';
+  }
+
+  function getOrderStatusText(status) {
+    const textMap = {
+      'новый': 'Новый',
+      'обработка': 'В обработке',
+      'доставка': 'Доставляется',
+      'доставлен': 'Доставлен',
+      'отменен': 'Отменен'
+    };
+    return textMap[status] || 'Новый';
+  }
+
+  function viewOrderDetails(orderIndex) {
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const userOrders = orders.filter(order => order.email === currentUser.email || order.userId === currentUser.id);
+    
+    if (orderIndex >= 0 && orderIndex < userOrders.length) {
+      const order = userOrders[orderIndex];
+      
+      let orderDetails = `
+        <h3>Заказ #${order.id || 'N/A'}</h3>
+        <p><strong>Дата:</strong> ${new Date(order.date || new Date()).toLocaleString('ru-RU')}</p>
+        <p><strong>Статус:</strong> ${getOrderStatusText(order.status)}</p>
+        <p><strong>Сумма:</strong> ${order.total ? parseInt(order.total.replace(/\s/g, '')).toLocaleString() : '0'} ₽</p>
+        
+        <h4 style="margin-top: 20px;">Товары:</h4>
+        <ul style="margin-left: 20px;">
+      `;
+      
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach(item => {
+          orderDetails += `<li>${item.name} - ${item.quantity} шт. × ${item.price} ₽ = ${item.total} ₽</li>`;
+        });
+      }
+      
+      orderDetails += `
+        </ul>
+        
+        <h4 style="margin-top: 20px;">Детали доставки:</h4>
+        <p><strong>Адрес:</strong> ${order.address || 'Не указан'}, ${order.city || 'Не указан'}</p>
+        <p><strong>Способ доставки:</strong> ${order.delivery || 'Не указан'}</p>
+        <p><strong>Способ оплаты:</strong> ${order.payment || 'Не указан'}</p>
+      `;
+      
+      showNotification('Детали заказа', orderDetails, 'info');
+    }
+  }
+
+  // ========== БОНУСНАЯ СИСТЕМА ==========
+  function addBonusHistory(amount, reason, type = 'in') {
+    if (!currentUser) return;
+    
+    if (!currentUser.bonusHistory) {
+      currentUser.bonusHistory = [];
+    }
+    
+    currentUser.bonusHistory.push({
+      date: new Date().toISOString(),
+      amount: amount,
+      reason: reason,
+      type: type
+    });
+    
+    // Обновляем общее количество бонусов
+    if (type === 'in') {
+      currentUser.bonuses = (currentUser.bonuses || 0) + amount;
+    } else if (type === 'out') {
+      currentUser.bonuses = Math.max(0, (currentUser.bonuses || 0) - amount);
+    }
+    
+    // Обновляем в localStorage
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    if (userIndex !== -1) {
+      users[userIndex] = currentUser;
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    }
+    
+    // Обновляем отображение
+    if (document.getElementById('bonusAmount')) {
+      document.getElementById('bonusAmount').textContent = currentUser.bonuses.toLocaleString();
+      updateBonusProgress();
+    }
+  }
+
+  function loadBonusHistory() {
+    if (!currentUser || !document.getElementById('bonusHistoryList')) return;
+    
+    const bonusHistoryList = document.getElementById('bonusHistoryList');
+    
+    if (!currentUser.bonusHistory || currentUser.bonusHistory.length === 0) {
+      bonusHistoryList.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 20px;">История бонусов пуста</p>';
+      return;
+    }
+    
+    // Берем последние 5 записей
+    const recentHistory = [...currentUser.bonusHistory].reverse().slice(0, 5);
+    
+    bonusHistoryList.innerHTML = recentHistory.map(item => `
+      <div class="bonus-history-item">
+        <div>
+          <div style="font-weight: 500;">${item.reason}</div>
+          <div style="font-size: 12px; color: var(--text-secondary);">
+            ${new Date(item.date).toLocaleDateString('ru-RU')}
+          </div>
+        </div>
+        <div class="${item.type === 'in' ? 'bonus-plus' : 'bonus-minus'}">
+          ${item.type === 'in' ? '+' : '-'}${item.amount} бонусов
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function loadBonusHistoryDetails() {
+    if (!currentUser || !document.getElementById('bonusHistoryDetails')) return;
+    
+    const bonusHistoryDetails = document.getElementById('bonusHistoryDetails');
+    
+    if (!currentUser.bonusHistory || currentUser.bonusHistory.length === 0) {
+      bonusHistoryDetails.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 20px;">История бонусов пуста</p>';
+      return;
+    }
+    
+    // Сортируем по дате (новые сверху)
+    const sortedHistory = [...currentUser.bonusHistory].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    bonusHistoryDetails.innerHTML = `
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <thead>
+            <tr style="background: var(--gray-soft);">
+              <th style="padding: 10px; text-align: left;">Дата</th>
+              <th style="padding: 10px; text-align: left;">Описание</th>
+              <th style="padding: 10px; text-align: left;">Изменение</th>
+              <th style="padding: 10px; text-align: left;">Тип</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sortedHistory.map(item => `
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 10px;">
+                  ${new Date(item.date).toLocaleDateString('ru-RU')}
+                </td>
+                <td style="padding: 10px;">${item.reason}</td>
+                <td style="padding: 10px; font-weight: 500; color: ${item.type === 'in' ? 'var(--success-color)' : 'var(--danger-color)'};">
+                  ${item.type === 'in' ? '+' : '-'}${item.amount}
+                </td>
+                <td style="padding: 10px;">
+                  <span style="padding: 3px 8px; border-radius: 4px; font-size: 12px; background: ${item.type === 'in' ? '#d4edda' : '#f8d7da'}; color: ${item.type === 'in' ? '#155724' : '#721c24'}">
+                    ${item.type === 'in' ? 'Начисление' : 'Списание'}
+                  </span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // ========== TELEGRAM ИНТЕГРАЦИЯ ==========
+  async function sendTelegramWelcome(user) {
+    try {
+      const message = `
+🎉 *НОВЫЙ ПОЛЬЗОВАТЕЛЬ DROP SHOP* 🎉
+
+*👤 Имя:* ${user.name}
+*📧 Email:* ${user.email}
+*📞 Телефон:* ${user.phone || 'Не указан'}
+
+*🎁 Бонусы:* 500 (за регистрацию)
+*📅 Дата регистрации:* ${new Date().toLocaleDateString('ru-RU')}
+
+*💬 Код для привязки Telegram:* ${telegramCode}
+      `;
+      
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: 'Markdown'
+        })
+      });
+      
+      const data = await response.json();
+      console.log('Приветственное сообщение отправлено:', data);
+      
+    } catch (error) {
+      console.error('Ошибка при отправке в Telegram:', error);
+    }
+  }
+
+  // ========== ТОВАРЫ И КАТАЛОГ ==========
+  function loadProducts() {
+    allProducts = JSON.parse(localStorage.getItem('catalogProducts')) || [];
+    
+    if (allProducts.length === 0) {
+      allProducts = [
+        // Реплики
+        {
+          id: 1,
+          name: "Nike Air Jordan 1 High Replica",
+          price: 12990,
+          type: "replica",
+          category: "кроссовки",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+          inStock: true
+        },
+        {
+          id: 2,
+          name: "Adidas Yeezy 350 V2 Replica",
+          price: 10990,
+          type: "replica",
+          category: "кроссовки",
+          image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80",
+          inStock: true
+        },
+        {
+          id: 3,
+          name: "Oversize Hoodie Black Replica",
+          price: 7990,
+          type: "replica",
+          category: "худи",
+          image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+          inStock: true
+        },
+        {
+          id: 4,
+          name: "Fear of God Essentials Pants",
+          price: 8990,
+          type: "replica",
+          category: "брюки",
+          image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=80",
+          inStock: true
+        },
+        // Оригиналы
+        {
+          id: 5,
+          name: "Nike Air Jordan 1 Original",
+          price: 34990,
+          type: "original",
+          category: "кроссовки",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251208/01211522f9a04a2598634b90b282dc62.jpg?x-oss-process=image/format,webp/resize,w_800",
+          inStock: false
+        },
+        {
+          id: 6,
+          name: "New Balance 2002 Original",
+          price: 44990,
+          type: "original",
+          category: "кроссовки",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20251211/02b5fd522d944e47b5ad896328d287bb.jpg?x-oss-process=image/format,webp/resize,w_800",
+          inStock: false
+        },
+        {
+          id: 7,
+          name: "Burberry Classic Shirt",
+          price: 54990,
+          type: "original",
+          category: "одежда",
+          image: "https://cdn-img.thepoizon.ru/pro-img/cut-img/20250325/c5cb34b6334845039416a24e165f8c8a.jpg?x-oss-process=image/format,webp/resize,w_800",
+          inStock: false
+        },
+        {
+          id: 8,
+          name: "Gucci Ace Sneakers",
+          price: 79990,
+          type: "original",
+          category: "кроссовки",
+          image: "https://images.unsplash.com/photo-1556048219-bb6978360b84?auto=format&fit=crop&w=800&q=80",
+          inStock: false
+        }
+      ];
+      
+      localStorage.setItem('catalogProducts', JSON.stringify(allProducts));
+    }
+    
+    renderReplicaProducts();
+    renderOriginalProducts();
+    updateCounters();
+    
+    // Показываем соответствующий интерфейс личного кабинета
+    if (currentUser) {
+      showUserProfile();
+    } else {
+      showLoginForm();
+      updateTelegramCode();
+    }
+  }
+
+  function renderReplicaProducts() {
+    const container = document.getElementById('replicaProducts');
+    const replicaProducts = allProducts.filter(p => p.type === 'replica').slice(0, 4);
+    
+    container.innerHTML = replicaProducts.map(product => `
+      <div class="sidebar-product" onclick="viewProduct(${product.id})">
+        <img src="${product.image}" class="sidebar-product-image" alt="${product.name}">
+        <div class="sidebar-product-info">
+          <div class="sidebar-product-name">${product.name}</div>
+          <div class="sidebar-product-price">${product.price.toLocaleString()} ₽</div>
+          <span class="stock-badge in-stock">В наличии</span>
+          <div class="sidebar-product-actions">
+            <button class="btn btn-primary btn-small" onclick="addToCart(${product.id}, '${product.type}', event)">
+              <i class="fas fa-shopping-bag"></i>
+            </button>
+            <button class="btn btn-secondary btn-small" onclick="addToWishlist(${product.id}, event)">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderOriginalProducts() {
+    const container = document.getElementById('originalProducts');
+    const originalProducts = allProducts.filter(p => p.type === 'original').slice(0, 4);
+    
+    container.innerHTML = originalProducts.map(product => `
+      <div class="sidebar-product" onclick="viewProduct(${product.id})">
+        <img src="${product.image}" class="sidebar-product-image" alt="${product.name}">
+        <div class="sidebar-product-info">
+          <div class="sidebar-product-name">${product.name}</div>
+          <div class="sidebar-product-price">${product.price.toLocaleString()} ₽</div>
+          <span class="stock-badge pre-order">Под заказ</span>
+          <div class="sidebar-product-actions">
+            <button class="btn btn-primary btn-small" onclick="addToCart(${product.id}, '${product.type}', event)">
+              <i class="fas fa-crown"></i>
+            </button>
+            <button class="btn btn-secondary btn-small" onclick="addToWishlist(${product.id}, event)">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ========== ФУНКЦИОНАЛ ТОВАРОВ ==========
+  function viewProduct(productId) {
+    localStorage.setItem('currentProductId', productId);
+    window.location.href = 'product.html?id=' + productId;
+  }
+
+  function addToCart(productId, type = 'replica', event) {
+    if (event) event.stopPropagation();
+    
+    const product = allProducts.find(p => p.id == productId);
+    
+    if (!product) {
+      showNotification('Ошибка', 'Товар не найден', 'error');
+      return;
+    }
+    
+    const cartKey = `${productId}_${Date.now()}`;
+    
+    cart[cartKey] = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      type: product.type,
+      category: product.category,
+      quantity: 1,
+      deliveryTime: type === 'original' ? '7-14 дней' : '1-3 дня'
+    };
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCounters();
+    
+    // Начисляем бонусы (5% от покупки) если пользователь авторизован
+    if (currentUser) {
+      const bonusEarned = Math.round(product.price * 0.05);
+      addBonusHistory(bonusEarned, `Покупка: ${product.name}`, 'in');
+      showNotification('Бонусы', `+${bonusEarned} бонусов за добавление товара`, 'success');
+    }
+    
+    showNotification('Успешно', `${product.name} добавлен в корзину`, 'success');
+  }
+
+  function addToWishlist(productId, event) {
+    if (event) event.stopPropagation();
+    
+    if (!wishlist.includes(productId)) {
+      wishlist.push(productId);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      updateCounters();
+      showNotification('Избранное', 'Товар добавлен в избранное', 'success');
+    }
+  }
+
+  function toggleWishlist() {
+    if (wishlist.length === 0) {
+      showNotification('Избранное', 'В избранном пока ничего нет', 'info');
+      return;
+    }
+    window.location.href = 'wishlist.html';
+  }
+
+  function toggleCompare() {
+    if (compareList.length < 2) {
+      showNotification('Сравнение', 'Добавьте минимум 2 товара для сравнения', 'warning');
+      return;
+    }
+    window.location.href = 'compare.html';
+  }
+
+  function filterCategory(category) {
+    showNotification('Фильтр', `Применен фильтр: ${category}`, 'info');
+    // В реальном приложении здесь была бы фильтрация товаров
+  }
+
+  function viewAllReplicas() {
+    window.location.href = 'catalog-replicas.html';
+  }
+
+  function viewAllOriginals() {
+    window.location.href = 'catalog-originals.html';
+  }
+
+  function filterReplicas() {
+    showNotification('Фильтр', 'Показаны только реплики', 'info');
+  }
+
+  function filterOriginals() {
+    showNotification('Фильтр', 'Показаны только оригиналы', 'info');
+  }
+
+  // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+  function updateCounters() {
+    const wishlistCount = wishlist.length;
+    document.getElementById('wishlistCount').textContent = wishlistCount > 99 ? '99+' : wishlistCount;
+    
+    const compareCount = compareList.length;
+    document.getElementById('compareCount').textContent = compareCount > 99 ? '99+' : compareCount;
+    
+    const cartItems = Object.values(cart).reduce((sum, item) => sum + (item.quantity || 1), 0);
+    document.getElementById('cartCount').textContent = cartItems > 99 ? '99+' : cartItems;
+  }
+
+  // ========== ИНИЦИАЛИЗАЦИЯ ==========
+  document.addEventListener('DOMContentLoaded', function() {
+    // Язык
+    switchLanguage(currentLanguage);
+    
+    // Переключение языка
+    document.getElementById('languageToggle').addEventListener('click', toggleLanguageDropdown);
+    
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const lang = this.getAttribute('data-lang');
+        switchLanguage(lang);
+        toggleLanguageDropdown();
+      });
+    });
+    
+    // Закрытие выпадающего меню при клике вне его
+    document.addEventListener('click', function(event) {
+      const languageSwitcher = document.querySelector('.language-switcher');
+      if (!languageSwitcher.contains(event.target)) {
+        const options = document.getElementById('languageOptions');
+        options.classList.remove('show');
+      }
+    });
+    
+    // Закрытие модального окна при клике вне его
+    document.getElementById('bonusModal').addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeModal();
+      }
+    });
+    
+    // Загрузка данных
+    loadProducts();
+    
+    // Проверяем авторизацию по Telegram коду
+    checkTelegramAuth();
+  });
+
+  function checkTelegramAuth() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const telegramAuth = urlParams.get('telegram_auth');
+    
+    if (telegramAuth === 'success') {
+      showNotification('Успех', 'Telegram успешно привязан!', 'success');
+      // Убираем параметр из URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+</script>
+</body>
+</html>
